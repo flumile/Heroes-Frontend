@@ -11,12 +11,18 @@
         <div class="subcol leftcol">
             <div class="hero-details">
                 <div class="lv">lv.1</div>
-                <img src="" alt="">
+                <div class="hero-img">
+                    <img src="" alt="">
+                </div>
                 <div class="details">
                     <div>Name</div>
                     <div>Job</div>
-                    <div>Hp</div>
-                    <div>MP</div>
+                    <div class="power">
+                        <div>HP</div>
+                        <div>0</div>
+                        <div>MP</div>
+                        <div>0</div>
+                    </div>
                 </div>
                 <div class="btn">
                     <input type="submit" value="update">
@@ -36,11 +42,11 @@
                             <div id="job-wrapper"></div>
                         </div>
                         <div class="field">
-                            <label for="Hero-image">image :</label>
+                            <label for="Hero-image"></label>
                             <input type="file" id="image" name="hero[image]"/>
                         </div>
 
-                        <div class="field">
+                        <div class="field fieldsubmit">
                             <input type="submit" />
                         </div>
                     </form>

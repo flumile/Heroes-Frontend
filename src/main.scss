@@ -1,48 +1,82 @@
 html{font-size: 16px;}
 
+body {
+    background: crimson;
+}
+
 .col {
-    margin: 2rem auto;
+    margin: 5rem auto;
     display: table;
     clear: both;
+    background-color: rgb(255, 255, 255);
+    border-radius: 2rem;
 }
 .subcol {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
     float: left;
     width: 600px;
     height: auto;
 }
-.leftcol {
-    position: sticky;
-}
 
 .hero-details {
-    margin: 1rem auto;
-    width: 400px;
+    margin: 1rem auto 3rem auto;
+    width: 300px;
     max-height: 400px;
-    background: rgb(163, 110, 132);
+    background: rgba(163, 110, 132, 0.37);
+    border: 10px groove brown;
     font-size: 20px;
+    text-align: center;
+    border-radius: 4rem;
+    padding-bottom: 1.5rem;
 }
 
 .lv {
-    padding: 10px 0 0 10px;
+    padding-top: 1rem;
+    margin-right: 10rem;
 }
 
-.details {
-    text-align: center;
+.hero-img {
+    width: 150px;
+    height: 150px;
+    background-image: url("./../img/no-photos.png");
+    background-color: burlywood;
+    margin: auto;
+    border-radius: 5rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+img {
+    max-width: 150%;
+    max-height: 150%;
 }
 
+.details { margin-top: 1rem; }
+
+.details div {margin-bottom: 0.5rem;}
+
+.power {
+    display: grid;
+    grid-template-columns: repeat(2,auto);
+    margin: 0rem 5rem;
+}
 .btn {
-    text-align: center;
+    margin-top: 1rem;
 }
 
 .add-hero {
     margin: 1rem auto;
-    width: 400px;
+    width: 350px;
     height: 400px;
-    background: rgb(110, 163, 145);
+    background: rgba(75, 124, 108, 0.281);
+    box-shadow: 3px 3px rgb(110, 163, 145),-3px -3px rgb(23, 114, 84);
+    font-size: 1.2rem;
 }
 h2 {
    padding-top: 2rem;
-   //padding-left: 5rem;
+   margin-bottom: 3rem;
    text-align: center;
 }
 label {
@@ -52,11 +86,38 @@ label {
 .form-wrapper {
     .field {
       display: flex;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .fieldsubmit {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        margin-right: 4rem;
     }
     label {
-      width: 70px;
+      width: auto;
+      margin-right: 0.5rem;
     }
+    #image {
+        margin-left:2rem;
+        margin-top: 0.2rem;
+        color: transparent;
+    }
+    #image::-webkit-file-upload-button {visibility: hidden;}
+    #image::before {
+        font-size: 1.2rem;
+        content:'Choose your avatar';
+        display: inline-block;
+        background-image: url(./../img/add-image2.png);
+        color:rgb(122, 12, 12);
+        outline: none;
+        width:200px;
+        height: 24px;
+        white-space: nowrap;
+        cursor:pointer;
+    }
+    #image:active{outline: 0;}
+    //#image:active::before{ background: darkorchid;}
   }
 .list {
     width: 600px;
@@ -73,10 +134,10 @@ label {
     grid-template-columns: repeat(5,120px);
 }
 .hero-header {
-    margin-top: 1rem;
-    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    font-size: 1.3rem;
 }
 .each-hero {
     font-size: 1.1rem;
-    margin-top: 0.4rem;
+    margin-top: 0.5rem;
 }
