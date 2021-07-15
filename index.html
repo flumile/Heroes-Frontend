@@ -10,7 +10,29 @@
     <div class="col">
         <div class="subcol leftcol">
             <div class="hero-details"></div>
-            <div class="add-hero"></div>
+            <div class="add-hero">
+                <div class="form-wrapper">
+                    <form action="" method="POST">
+                        <h2>Create new hero</h2>
+                        <div class="field">
+                            <label for="name">Name :</label>
+                            <input type="text" id="name" name="hero[name]"/>
+                        </div>
+                        <div class="field">
+                            <label for="job">Job :</label>
+                            <div id="job-wrapper"></div>
+                        </div>
+                        <div class="field">
+                            <label for="Hero-image">image :</label>
+                            <input type="file" id="image" name="hero[image]"/>
+                        </div>
+
+                        <div class="field">
+                            <input type="submit" />
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="subcol">
             <div class="list">
