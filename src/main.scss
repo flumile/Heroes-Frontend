@@ -25,6 +25,24 @@ html{font-size: 16px;}
     height: 400px;
     background: rgb(110, 163, 145);
 }
+h2 {
+   padding-top: 2rem;
+   //padding-left: 5rem;
+   text-align: center;
+}
+label {
+    padding-left: 2rem;
+    line-height: 2
+}
+.form-wrapper {
+    .field {
+      display: flex;
+      margin-bottom: 0.5rem;
+    }
+    label {
+      width: 70px;
+    }
+  }
 .list {
     width: 600px;
     height: auto;
