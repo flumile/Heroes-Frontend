@@ -13,12 +13,27 @@ html{font-size: 16px;}
 .leftcol {
     position: sticky;
 }
+
 .hero-details {
     margin: 1rem auto;
     width: 400px;
     max-height: 400px;
     background: rgb(163, 110, 132);
+    font-size: 20px;
 }
+
+.lv {
+    padding: 10px 0 0 10px;
+}
+
+.details {
+    text-align: center;
+}
+
+.btn {
+    text-align: center;
+}
+
 .add-hero {
     margin: 1rem auto;
     width: 400px;
