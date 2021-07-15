@@ -1,0 +1,49 @@
+html{font-size: 16px;}
+
+.col {
+    margin: 2rem auto;
+    display: table;
+    clear: both;
+}
+.subcol {
+    float: left;
+    width: 600px;
+    height: auto;
+}
+.leftcol {
+    position: sticky;
+}
+.hero-details {
+    margin: 1rem auto;
+    width: 400px;
+    max-height: 400px;
+    background: rgb(163, 110, 132);
+}
+.add-hero {
+    margin: 1rem auto;
+    width: 400px;
+    height: 400px;
+    background: rgb(110, 163, 145);
+}
+.list {
+    width: 600px;
+    height: auto;
+    margin: 1rem auto;
+    //background: crimson;
+}
+
+.list-head {
+    font-size:2rem;
+}
+.herolist {
+    display:grid;
+    grid-template-columns: repeat(5,120px);
+}
+.hero-header {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+}
+.each-hero {
+    font-size: 1.1rem;
+    margin-top: 0.4rem;
+}
