@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': process.env.API_CREDENTIAL
         }
     }).then(resp => resp.json())
       .then(data => {
