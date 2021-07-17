@@ -19,10 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 function buildJobDropdown(targetDom, data) {
-    targetDom.insertAdjacentHTML('afterbegin', `
-        <select id="jobs" name="hero[job]">
-            ${data.jobs.map(item => {return `<option value=${item}>${item}</option`})}
-            <option value=""></option>
-        </select
+    targetDom.insertAdjacentHTML('afterbegin', 
+        `<select id="jobs" name="hero[job]">
+            ${data.jobs.map(item => `<option value=${item}>${item}</option>`)}
+        </select>
     `)
 }
