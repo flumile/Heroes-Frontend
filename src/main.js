@@ -54,15 +54,21 @@ function clearDom(Dom) {
 }
 
 function showHero(Dom, data) {
+    let ImgUrl = data.image_thumbnail_url.replace('http://localhost:3002', process.env.API_HOST)
+    console.log(ImgUrl)
     clearDom(Dom)
     let htmlStr = `
     <div class="hero-details">
     <div class="lv">lv.${data.level}</div>
-        <div class="hero-img">
-            <img src="${data.image_thumbnail_url}" alt="">
+        <div class="hero-img-wrapper">
+            <img class="hero-img" src="${ImgUrl}" alt="hero : ${data.name}'s picture">
         </div>
+            <img id="edit-pic" src="https://img-premium.flaticon.com/png/512/2985/premium/2985659.png?token=exp=1626610614~hmac=6379576ea1c8c0f0d2f84b594f0d51b3">
         <div class="details">
-            <div id="${data.id}">${data.name}</div>
+            <div class="name">
+                <div class="info-name" id="${data.id}">${data.name}</div>
+                <img id="edit-name" src="https://image.flaticon.com/icons/png/512/1250/1250222.png">
+            </div>
             <div>${data.job}</div>
             <div class="power">
                 <div>HP</div>
