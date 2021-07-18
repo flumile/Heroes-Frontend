@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let url = process.env.API_HOST + "/heroes"
 
 
-    let callFetchtoGet = callfetch(url, "GET")
+    let callFetchtoGet = callfetchAPI(url, "GET")
 
     callFetchtoGet.then(data => {
         buildHeroDom(listHeroesDom, data)
@@ -30,7 +30,7 @@ function callHero2show(url) {
     cName.forEach(theName => {
         theName.addEventListener('click', function() {
             let id = theName.id
-            callfetch(url + "/" + id, "GET").then(data => {
+            callfetchAPI(url + "/" + id, "GET").then(data => {
                 let htmlShowHeroDom = document.getElementById('hero-details')
                 showHero(htmlShowHeroDom, data)
             })
@@ -38,7 +38,7 @@ function callHero2show(url) {
     })
 }
 
-function callfetch(url, mtd) {
+function callfetchAPI(url, mtd) {
     return fetch(url, {
         method: mtd,
         headers: {
@@ -61,7 +61,7 @@ function showHero(Dom, data) {
             <img src="${data.image_thumbnail_url}" alt="">
         </div>
         <div class="details">
-            <div>${data.name}</div>
+            <div id="${data.id}">${data.name}</div>
             <div>${data.job}</div>
             <div class="power">
                 <div>HP</div>
