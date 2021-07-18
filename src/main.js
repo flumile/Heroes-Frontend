@@ -38,13 +38,14 @@ function callHero2show(url) {
     })
 }
 
-function callfetchAPI(url, mtd) {
+function callfetchAPI(url, mtd, formData) {
     return fetch(url, {
         method: mtd,
         headers: {
             'Content-Type': 'application/json',
             'Authorization': process.env.API_CREDENTIAL,
-        }
+        },
+        body: formData
     }).then(resp => resp.json())
 }
 
