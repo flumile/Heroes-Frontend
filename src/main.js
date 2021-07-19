@@ -63,7 +63,7 @@ function showHero(Dom, data) {
         <div class="hero-img-wrapper">
             <img class="hero-img" src="${ImgUrl}" alt="hero : ${data.name}'s picture">
         </div>
-            <img id="edit-pic" src="https://img-premium.flaticon.com/png/512/2985/premium/2985659.png?token=exp=1626610614~hmac=6379576ea1c8c0f0d2f84b594f0d51b3">
+                <input type="file" id="image-update" name="image-update"/>
         <div class="details">
             <div class="name">
                 <div class="info-name" id="${data.id}">${data.name}</div>

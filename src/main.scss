@@ -65,16 +65,7 @@ body {
     //background: rgba(168, 204, 192, 0.534);
 }
 
-#edit-pic {
-    display: flex;
-    margin-top: -1.5rem;
-    margin-left: 11rem;
-    width: 25px;
-    height: auto;
-    padding: 1px 2px;
-}
-
-#edit-pic:hover {
+.edit-pics:hover {
     margin-left: 11.5rem;
     background: rgb(182, 138, 107);
 }
@@ -84,6 +75,42 @@ body {
     grid-template-columns: repeat(2, auto);
     justify-content: center;
     gap: 2px;
+    margin-top: -2rem;
+}
+
+#image-update {
+    //margin: -2rem 10rem 0rem 12rem;
+    color: transparent;
+    width: 25px;
+    position: relative;
+    top: -1.5rem;
+    right: -3rem;
+}
+
+#image-update:hover {
+    right: -3.5rem;
+    background: rgb(230, 239, 250);
+}
+
+#image-update::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+#image-update::before {
+    font-size: 1.2rem;
+    content: '';
+    display: inline-block;
+    background-image: url(./../img/camera.png);
+    color: rgb(122, 12, 12);
+    outline: none;
+    width: 24px;
+    height: 24px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#image-update:active {
+    outline: 0;
 }
 
 //.info-name {}
