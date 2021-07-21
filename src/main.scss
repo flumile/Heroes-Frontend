@@ -18,12 +18,10 @@ body {
 .subcol {
     margin-top: 3rem;
     margin-bottom: 3rem;
-    //float: left;
-    //width: 600px;
     height: auto;
 }
 
-.colhero-list {
+.col-hero-list {
     margin-left: 2rem;
     margin-right: 2rem;
 }
@@ -48,7 +46,6 @@ body {
 .hero-img-wrapper {
     width: 150px;
     height: 150px;
-    //background-image: url("./../img/no-photos.png");
     background-color: burlywood;
     margin: auto;
     border-radius: 5rem;
@@ -61,8 +58,6 @@ body {
 .hero-img {
     max-width: 150%;
     max-height: 150%;
-    //font-size: 1rem;
-    //background: rgba(168, 204, 192, 0.534);
 }
 
 .edit-pics:hover {
@@ -79,7 +74,6 @@ body {
 }
 
 #image-update {
-    //margin: -2rem 10rem 0rem 12rem;
     color: transparent;
     width: 25px;
     position: relative;
@@ -113,7 +107,6 @@ body {
     outline: 0;
 }
 
-//.info-name {}
 #edit-name {
     width: 20px;
     height: auto;
@@ -207,14 +200,12 @@ label {
     #image:active {
         outline: 0;
     }
-    //#image:active::before{ background: darkorchid;}
 }
 
 .list {
     width: 600px;
     height: auto;
     margin: 1rem auto;
-    //background: crimson;
 }
 
 .list-head {

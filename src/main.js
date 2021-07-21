@@ -4,30 +4,19 @@ import './main.scss'
 document.addEventListener('DOMContentLoaded', function() {
     let listHeroesDom = document.getElementById('list-hero')
     let formHero = document.querySelector("form")
-
     let url = process.env.API_HOST + "/heroes"
-
-
     let callFetchtoGet = callfetchAPI(url, "GET")
-
     callFetchtoGet.then(data => {
         buildHeroDom(listHeroesDom, data)
         callHero2show(url)
     })
-
-
-    const cJob = document.querySelectorAll('.job') //c(small C) is select
-        //console.log(cJob)
-        //clearDom(listHeroesDom)
-
-    const cName = document.querySelectorAll('.hero-name')
-        //console.log(cName)
-        //console.log(document.querySelectorAll('.hero-name'))
+    const selectJob = document.querySelectorAll('.job') 
+    const selectName = document.querySelectorAll('.hero-name')
 })
 
 function callHero2show(url) {
-    const cName = document.querySelectorAll('.hero-name')
-    cName.forEach(theName => {
+    const selectName = document.querySelectorAll('.hero-name')
+    selectName.forEach(theName => {
         theName.addEventListener('click', function() {
             let id = theName.id
             callfetchAPI(url + "/" + id, "GET").then(data => {
@@ -49,14 +38,14 @@ function callfetchAPI(url, mtd, formData) {
     }).then(resp => resp.json())
 }
 
-function clearDom(Dom) {
-    Dom.textContent = ''
+function clearDom(dom) {
+    dom.textContent = ''
 }
 
-function showHero(Dom, data) {
+function showHero(dom, data) {
     let ImgUrl = data.image_thumbnail_url.replace('http://localhost:3002', process.env.API_HOST)
     console.log(ImgUrl)
-    clearDom(Dom)
+    clearDom(dom)
     let htmlStr = `
     <div class="hero-details">
     <div class="lv">lv.${data.level}</div>
@@ -83,10 +72,10 @@ function showHero(Dom, data) {
         </div>
         </div>
     `
-    Dom.insertAdjacentHTML('beforeend', htmlStr)
+    dom.insertAdjacentHTML('beforeend', htmlStr)
 }
 
-function buildHeroDom(Dom, data) {
+function buildHeroDom(dom, data) {
     data.forEach(hero => {
         let htmlStr = `
         <div class="herolist each-hero">
@@ -97,6 +86,6 @@ function buildHeroDom(Dom, data) {
             <div class="job ${hero.job}">${hero.job}</div>
         </div>
         `
-        Dom.insertAdjacentHTML('beforeend', htmlStr)
+        dom.insertAdjacentHTML('beforeend', htmlStr)
     });
 }
