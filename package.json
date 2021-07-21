@@ -12,5 +12,6 @@
   },
   "devDependencies": {
     "sass": "^1.35.2"
-  }
+  },
+  "repository": "https://github.com/flumile/Heroes-Frontend"
 }
