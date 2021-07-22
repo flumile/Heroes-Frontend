@@ -10,8 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
         buildHeroDom(listHeroesDom, data)
         callHero2show(url)
     })
-    const selectJob = document.querySelectorAll('.job') 
-    const selectName = document.querySelectorAll('.hero-name')
 })
 
 function callHero2show(url) {
@@ -22,7 +20,20 @@ function callHero2show(url) {
             callfetchAPI(url + "/" + id, "GET").then(data => {
                 let htmlShowHeroDom = document.getElementById('hero-details')
                 showHero(htmlShowHeroDom, data)
+                deleteHero(url,data)
             })
+        })
+    })
+}
+
+function deleteHero(url,data) {
+    let deleteBtn = document.querySelector('.delete-btn')
+    deleteBtn.addEventListener('click',function() {
+        let id = data.id
+        callfetchAPI(url + "/" + id, "DELETE")
+        callfetchAPI(url,"GET").then(data => {
+            clearDom(data)
+            window.location.reload()
         })
     })
 }
@@ -44,7 +55,6 @@ function clearDom(dom) {
 
 function showHero(dom, data) {
     let ImgUrl = data.image_thumbnail_url.replace('http://localhost:3002', process.env.API_HOST)
-    console.log(ImgUrl)
     clearDom(dom)
     let htmlStr = `
     <div class="hero-details">
@@ -67,8 +77,8 @@ function showHero(dom, data) {
             </div>
         </div>
         <div class="btn">
-            <input type="submit" value="update">
-            <input type="submit" value="delete">
+            <input type="submit" value="update" class="update-btn">
+            <input type="submit" value="delete" class="delete-btn">
         </div>
         </div>
     `
