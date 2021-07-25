@@ -5,13 +5,19 @@ document.addEventListener('DOMContentLoaded', function() {
     let listHeroesDom = document.getElementById('list-hero')
     let formHero = document.querySelector("form")
     let url = process.env.API_HOST + "/heroes"
-    let callFetchtoGet = callfetchAPI(url, "GET")
-    callFetchtoGet.then(data => {
-        buildHeroDom(listHeroesDom, data)
-        callHero2show(url)
-    })
-    const selectJob = document.querySelectorAll('.job') 
-    const selectName = document.querySelectorAll('.hero-name')
+
+    fetch(url, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': process.env.API_CREDENTIAL,
+            },
+        }).then(resp => resp.json())
+        .then(data => {
+            buildHeroDom(listHeroesDom, data)
+            callHero2show(url)
+        })
+
 })
 
 function callHero2show(url) {
@@ -19,23 +25,94 @@ function callHero2show(url) {
     selectName.forEach(theName => {
         theName.addEventListener('click', function() {
             let id = theName.id
-            callfetchAPI(url + "/" + id, "GET").then(data => {
-                let htmlShowHeroDom = document.getElementById('hero-details')
-                showHero(htmlShowHeroDom, data)
-            })
+            let thisHeroUrl = url + "/" + id
+            fetch(thisHeroUrl, {
+                    method: "GET",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': process.env.API_CREDENTIAL,
+                    },
+                }).then(resp => resp.json())
+                .then(data => {
+                    let htmlShowHeroDom = document.getElementById('hero-details')
+                    showHero(htmlShowHeroDom, data)
+                    allBtnHeroCard(url, data)
+                })
         })
     })
 }
 
-function callfetchAPI(url, mtd, formData) {
-    return fetch(url, {
-        method: mtd,
+function allBtnHeroCard(url, data) { //all botton in hero card
+    let deleteBtn = document.querySelector('.delete-btn')
+    let modifybtn = document.getElementById('edit-name')
+    let btnUpdate = document.querySelector('.update-btn')
+
+    deleteBtn.addEventListener('click', function() {
+        deleteHero(url, data)
+    })
+
+    modifybtn.addEventListener('click', function() {
+        modifyBtn(url, data)
+    })
+
+    btnUpdate.addEventListener('click', function() {
+        updateHero(url, data)
+    })
+}
+
+function deleteHero(url, data) {
+    let id = data.id
+    let thisHeroUrl = url + "/" + id
+    fetch(thisHeroUrl, {
+        method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
             'Authorization': process.env.API_CREDENTIAL,
         },
-        body: formData
     }).then(resp => resp.json())
+    window.location.reload()
+}
+
+function modifyBtn(url, data) {
+    let id = data.id
+    let thisHeroUrl = url + "/" + id
+    fetch(thisHeroUrl, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': process.env.API_CREDENTIAL,
+            },
+        }).then(resp => resp.json())
+        .then(data => {
+            let htmlShowUpdateDom = document.querySelector('.name')
+            showUpdateCard(htmlShowUpdateDom, data)
+        })
+}
+
+function updateHero(url, data) {
+    let heroInfo = document.getElementById('hero-details')
+    let name = heroInfo.querySelector('#UpdateName').value
+    let newData = new FormData
+    newData.append('hero[name]', name)
+
+    let id = data.id
+    let thisHeroUrl = url + "/" + id
+    fetch(thisHeroUrl, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': process.env.API_CREDENTIAL,
+            },
+            body: newData
+        }).then(resp => resp.json())
+        .then(data => {
+            let htmlShowUpdateDom = document.getElementById('hero-details')
+            showHero(htmlShowUpdateDom, data)
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    window.location.reload()
 }
 
 function clearDom(dom) {
@@ -44,7 +121,6 @@ function clearDom(dom) {
 
 function showHero(dom, data) {
     let ImgUrl = data.image_thumbnail_url.replace('http://localhost:3002', process.env.API_HOST)
-    console.log(ImgUrl)
     clearDom(dom)
     let htmlStr = `
     <div class="hero-details">
@@ -56,7 +132,7 @@ function showHero(dom, data) {
         <div class="details">
             <div class="name">
                 <div class="info-name" id="${data.id}">${data.name}</div>
-                <img id="edit-name" src="https://image.flaticon.com/icons/png/512/1250/1250222.png">
+                <img heroId="${data.id}" id="edit-name" src="https://image.flaticon.com/icons/png/512/1250/1250222.png">
             </div>
             <div>${data.job}</div>
             <div class="power">
@@ -67,12 +143,21 @@ function showHero(dom, data) {
             </div>
         </div>
         <div class="btn">
-            <input type="submit" value="update">
-            <input type="submit" value="delete">
+            <input type="submit" value="update" class="update-btn">
+            <input type="submit" value="delete" class="delete-btn">
         </div>
         </div>
     `
     dom.insertAdjacentHTML('beforeend', htmlStr)
+}
+
+function showUpdateCard(dom, data) {
+    clearDom(dom)
+    let htmlStr = `
+        <input type="text" id="UpdateName" HeroName="hero[name]"></div>
+    `
+    dom.insertAdjacentHTML('beforeend', htmlStr)
+
 }
 
 function buildHeroDom(dom, data) {
