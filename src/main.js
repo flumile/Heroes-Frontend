@@ -21,6 +21,8 @@ function callHero2show(url) {
                 let htmlShowHeroDom = document.getElementById('hero-details')
                 showHero(htmlShowHeroDom, data)
                 deleteHero(url,data)
+                modifyBtn(url,data)
+                updateHero(url,data)
             })
         })
     })
@@ -31,10 +33,7 @@ function deleteHero(url,data) {
     deleteBtn.addEventListener('click',function() {
         let id = data.id
         callfetchAPI(url + "/" + id, "DELETE")
-        callfetchAPI(url,"GET").then(data => {
-            clearDom(data)
-            window.location.reload()
-        })
+        window.location.reload()
     })
 }
 
@@ -47,6 +46,32 @@ function callfetchAPI(url, mtd, formData) {
         },
         body: formData
     }).then(resp => resp.json())
+}
+
+function modifyBtn(url,data) {
+    let modifybtn = document.getElementById('edit-name')
+    modifybtn.addEventListener('click',function () {
+        let id = data.id
+        callfetchAPI(url + "/" + id, "GET").then(data => {
+            let htmlShowUpdateDom = document.getElementById('hero-details')
+            showUpdateCard(htmlShowUpdateDom, data)
+        })
+    })
+}
+
+function updateHero(url,data) {
+    let btnUpdate = document.querySelector('.update-btn')
+    btnUpdate.addEventListener('click', function() {
+        heroInfo = document.getElementById('hero-details')
+        let name = heroInfo.querySelector('#UpdateName')
+        console.log('hello')
+        let newData = new HeroData
+        newData.append('hero[name]',name)
+        
+        let id = data.id
+        callfetchAPI(url + "/" + id, "PATCH")
+        window.location.reload()
+    })
 }
 
 function clearDom(dom) {
@@ -66,6 +91,38 @@ function showHero(dom, data) {
         <div class="details">
             <div class="name">
                 <div class="info-name" id="${data.id}">${data.name}</div>
+                <img heroId="${data.id}" id="edit-name" src="https://image.flaticon.com/icons/png/512/1250/1250222.png">
+            </div>
+            <div>${data.job}</div>
+            <div class="power">
+                <div>HP</div>
+                <div>${data.hp}</div>
+                <div>MP</div>
+                <div>${data.mp}</div>
+            </div>
+        </div>
+        <div class="btn">
+            <input type="submit" value="update" class="update-btn">
+            <input type="submit" value="delete" class="delete-btn">
+        </div>
+        </div>
+    `
+    dom.insertAdjacentHTML('beforeend', htmlStr)
+}
+
+function showUpdateCard(dom,data) {
+    let ImgUrl = data.image_thumbnail_url.replace('http://localhost:3002', process.env.API_HOST)
+    clearDom(dom)
+    let htmlStr = `
+    <div class="hero-details">
+    <div class="lv">lv.${data.level}</div>
+        <div class="hero-img-wrapper">
+            <img class="hero-img" src="${ImgUrl}" alt="hero : ${data.name}'s picture">
+        </div>
+                <input type="file" id="image-update" name="image-update"/>
+        <div class="details">
+            <div class="name">
+                <div class="info-name" id="${data.id}"><input type="text" id="UpdateName" HeroName="hero[name]"></div>
                 <img id="edit-name" src="https://image.flaticon.com/icons/png/512/1250/1250222.png">
             </div>
             <div>${data.job}</div>
@@ -83,6 +140,7 @@ function showHero(dom, data) {
         </div>
     `
     dom.insertAdjacentHTML('beforeend', htmlStr)
+    
 }
 
 function buildHeroDom(dom, data) {
