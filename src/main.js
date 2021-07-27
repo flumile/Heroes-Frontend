@@ -2,8 +2,8 @@ require('dotenv').config()
 import './main.scss'
 
 document.addEventListener('DOMContentLoaded', function() {
-    let listHeroesDom = document.getElementById('list-heroes')
-    //let formHero = document.querySelector('form')
+    //let listHeroesDom = document.getElementById('list-heroes')
+    let formHero = document.querySelector('#form-hero')
     let btnCreateHero = document.querySelector('#btn-create-hero')
 
     let heroJobUrl = process.env.API_HOST + "/hero_jobs"
@@ -24,42 +24,36 @@ document.addEventListener('DOMContentLoaded', function() {
     btnCreateHero.onclick = () => {
         createHero()
     }
+
+    function createHero() {
+        let name = formHero.querySelector('#name').value
+        let job = formHero.querySelector('#jobs').value
+        let image = formHero.querySelector('#image').files[0]
+    
+        let formData = new FormData
+        formData.append('hero[name]', name)
+        formData.append('hero[job]', job)
+        formData.append('hero[image]', image)
+    
+        let createHeroUrl = process.env.API_HOST + "/heroes"
+        console.log(createHeroUrl)
+        fetch(createHeroUrl, {
+            method: "POST",
+            headers: {
+                'Authorization': process.env.API_CREDENTIAL
+            },
+            body: formData
+        }).then(resp => resp.json())
+          .then(data => {
+              console.log('congrats!')
+              console.log(data)
+          })
+    }
 })
-
-function createHero() {
-    let formHero = document.querySelector('form')
-    let formData = new FormData()
-    let name = formHero.querySelector('#name').value
-    let job = formHero.querySelector('#job').value
-    //let img = formHero.querySelector('#image').files[0]
-
-    formData.append('hero[name]', name)
-    formData.append('hero[job]', job)
-    ///formData.append('hero[image]', img)
-    console.log('Helooooooooooo')
-
-    let createHeroUrl = process.env.API_HOST + "/heroes"
-    console.log(createHeroUrl)
-    fetch(createHeroUrl, {
-        method: "POST",
-        headers: {
-            'Authorization': process.env.API_CREDENTIAL
-        },
-        body: formData
-    }).then(resp => resp.json())
-      .then(data => {
-          console.log('success')
-          console.log(data)
-          alert('pooooo')
-      })
-      .catch(error => {
-          console.log(error)
-          alert('erorrrrrrr2')})
-}
 
 function buildJobDropdown(targetDom, data) {
     targetDom.insertAdjacentHTML('afterbegin', 
-        `<select id="job" name="hero[job]">
+        `<select id="jobs" name="hero[job]">
             ${data.jobs.map(item => `<option value=${item}>${item}</option>`)}
         </select>
     `)
