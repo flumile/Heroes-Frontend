@@ -2,7 +2,6 @@ require('dotenv').config()
 import './main.scss'
 
 document.addEventListener('DOMContentLoaded', function() {
-    //let listHeroesDom = document.getElementById('list-heroes')
     let formHero = document.querySelector('#form-hero')
     let btnCreateHero = document.querySelector('#btn-create-hero')
 
@@ -44,12 +43,20 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: formData
         }).then(resp => resp.json())
-          .then(data => {
-              console.log('congrats!')
-              console.log(data)
-          })
     }
 })
+function insertNewHero(heroList, hero){
+    let htmlStr = `
+    <div class="hero">
+        <a href="" class="hero-name">${hero.name}</a>
+        <div>${hero.level}</div>
+        <div>${hero.hp}</div>
+        <div>${hero.mp}</div>
+        <div>${hero.job}</div>
+    </div>
+    `
+    heroList.insertAdjacentHTML('afterbrgin', htmlStr)
+} 
 
 function buildJobDropdown(targetDom, data) {
     targetDom.insertAdjacentHTML('afterbegin', 
