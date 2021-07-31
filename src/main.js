@@ -45,18 +45,14 @@ function callHero2show(url) {
 function allBtnHeroCard(url, data) { //all botton in hero card
     let deleteBtn = document.querySelector('.delete-btn')
     let modifybtn = document.getElementById('edit-name')
-    let btnUpdate = document.querySelector('.update-btn')
 
     deleteBtn.addEventListener('click', function() {
         deleteHero(url, data)
     })
 
     modifybtn.addEventListener('click', function() {
-        modifyBtn(url, data)
-    })
-
-    btnUpdate.addEventListener('click', function() {
-        updateHero(url, data)
+        let nameTag = document.querySelector('.info-name')
+        modifyBtn(nameTag, data, url)
     })
 }
 
@@ -73,46 +69,55 @@ function deleteHero(url, data) {
     window.location.reload()
 }
 
-function modifyBtn(url, data) {
-    let id = data.id
-    let thisHeroUrl = url + "/" + id
-    fetch(thisHeroUrl, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': process.env.API_CREDENTIAL,
-            },
-        }).then(resp => resp.json())
+function modifyBtn(nameTag, data, url) {
+    let nameInput = document.createElement('input')
+    nameInput.setAttribute('type', 'text')
+    nameInput.setAttribute('name', 'hero[name]')
+    nameInput.setAttribute('value', nameTag.textContent)
+    nameInput.dataset.id = data.id
+    nameTag.textContent = ' '
+    nameTag.appendChild(nameInput)    
+    nameInput.focus()
+
+    let btnUpdate = document.querySelector('.update-btn')
+    btnUpdate.addEventListener('click', function() {
+        updateHero(data, url, nameInput)
+    })
+}
+
+function updateHero(data, url, nameInput) {
+    let heroId = data.id
+    let heroUpdateUrl = url + '/' + heroId 
+    let inputNameTag = nameInput.value
+    fetch(heroUpdateUrl, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': process.env.API_CREDENTIAL
+          },
+          body: JSON.stringify({ hero: { name: inputNameTag} })
+        })
+        .then(resp => resp.json())
         .then(data => {
-            let htmlShowUpdateDom = document.querySelector('.name')
-            showUpdateCard(htmlShowUpdateDom, data)
+            console.log(data)
+            callNewHeroList(url)
         })
 }
 
-function updateHero(url, data) {
-    let heroInfo = document.getElementById('hero-details')
-    let name = heroInfo.querySelector('#UpdateName').value
-    let newData = new FormData
-    newData.append('hero[name]', name)
+function callNewHeroList(url) {
+    fetch(url, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': process.env.API_CREDENTIAL,
+        },
+    }).then(resp => resp.json())
+    .then(data => {
+        let listHeroesDom = document.getElementById('list-hero')
+        clearDom(listHeroesDom)
+        buildHeroDom(listHeroesDom, data)
 
-    let id = data.id
-    let thisHeroUrl = url + "/" + id
-    fetch(thisHeroUrl, {
-            method: "PATCH",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': process.env.API_CREDENTIAL,
-            },
-            body: newData
-        }).then(resp => resp.json())
-        .then(data => {
-            let htmlShowUpdateDom = document.getElementById('hero-details')
-            showHero(htmlShowUpdateDom, data)
-        })
-        .catch(error => {
-            console.log(error)
-        })
-    window.location.reload()
+    })
 }
 
 function clearDom(dom) {
@@ -154,7 +159,7 @@ function showHero(dom, data) {
 function showUpdateCard(dom, data) {
     clearDom(dom)
     let htmlStr = `
-        <input type="text" id="UpdateName" HeroName="hero[name]"></div>
+        <input type="text" id="UpdateName" HeroName ="hero[name]" value=' '></div>
     `
     dom.insertAdjacentHTML('beforeend', htmlStr)
 
