@@ -52,8 +52,10 @@ function allBtnHeroCard(url, data) { //all botton in hero card
 
     modifybtn.addEventListener('click', function() {
         let nameTag = document.querySelector('.info-name')
-        modifyBtn(nameTag, data, url)
+        modifyNameBtn(nameTag, data, url)
     })
+
+    updateImage(data, url)
 }
 
 function deleteHero(url, data) {
@@ -69,7 +71,7 @@ function deleteHero(url, data) {
     window.location.reload()
 }
 
-function modifyBtn(nameTag, data, url) {
+function modifyNameBtn(nameTag, data, url) {
     let nameInput = document.createElement('input')
     nameInput.setAttribute('type', 'text')
     nameInput.setAttribute('name', 'hero[name]')
@@ -85,10 +87,36 @@ function modifyBtn(nameTag, data, url) {
     })
 }
 
+function updateImage(data, url) {
+    let imageUpdateBtn = document.getElementById('image-update')
+    let heroId = data.id
+    let heroUpdateUrl = url + '/' + heroId 
+    imageUpdateBtn.addEventListener('change', function() {
+        let newImage = imageUpdateBtn.files[0]
+        console.log(newImage)
+        let formData = new FormData
+        formData.append('hero[image]', newImage)
+
+        fetch(heroUpdateUrl, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': process.env.API_CREDENTIAL
+            },
+            body: formData
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            window.location.reload()
+        })
+    })
+    
+}
+
 function updateHero(data, url, nameInput) {
     let heroId = data.id
     let heroUpdateUrl = url + '/' + heroId 
     let inputNameTag = nameInput.value
+
     fetch(heroUpdateUrl, {
         method: 'PATCH',
         headers: {
@@ -99,8 +127,7 @@ function updateHero(data, url, nameInput) {
         })
         .then(resp => resp.json())
         .then(data => {
-            console.log(data)
-            callNewHeroList(url)
+            window.location.reload()
         })
 }
 
@@ -133,7 +160,7 @@ function showHero(dom, data) {
         <div class="hero-img-wrapper">
             <img class="hero-img" src="${ImgUrl}" alt="hero : ${data.name}'s picture">
         </div>
-                <input type="file" id="image-update" name="image-update"/>
+                <input type="file" id="image-update" name="hero[image]"/>
         <div class="details">
             <div class="name">
                 <div class="info-name" id="${data.id}">${data.name}</div>
