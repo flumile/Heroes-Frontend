@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
             buildHeroDom(listHeroesDom, data)
             callHero2show(url)
         })
-
 })
 
 function callHero2show(url) {
@@ -42,7 +41,7 @@ function callHero2show(url) {
     })
 }
 
-function allBtnHeroCard(url, data) { //all botton in hero card
+function allBtnHeroCard(url, data) {
     let deleteBtn = document.querySelector('.delete-btn')
     let modifybtn = document.getElementById('edit-name')
 
@@ -61,6 +60,10 @@ function allBtnHeroCard(url, data) { //all botton in hero card
 function deleteHero(url, data) {
     let id = data.id
     let thisHeroUrl = url + "/" + id
+    let heroItem = document.getElementById(`heroId${id}`)
+    let heroCard = document.getElementById('hero-details')
+    console.log(heroCard)
+
     fetch(thisHeroUrl, {
         method: "DELETE",
         headers: {
@@ -68,7 +71,8 @@ function deleteHero(url, data) {
             'Authorization': process.env.API_CREDENTIAL,
         },
     }).then(resp => resp.json())
-    window.location.reload()
+    heroItem.innerHTML =``
+    heroCard.innerHTML =``
 }
 
 function modifyNameBtn(nameTag, data, url) {
@@ -105,18 +109,13 @@ function updateImage(data, url) {
             body: formData
         })
         .then(resp => resp.json())
-        .then(data => {
-            window.location.reload()
-        })
     })
-    
 }
 
 function updateHero(data, url, nameInput) {
     let heroId = data.id
     let heroUpdateUrl = url + '/' + heroId 
     let inputNameTag = nameInput.value
-
     fetch(heroUpdateUrl, {
         method: 'PATCH',
         headers: {
@@ -126,9 +125,7 @@ function updateHero(data, url, nameInput) {
           body: JSON.stringify({ hero: { name: inputNameTag} })
         })
         .then(resp => resp.json())
-        .then(data => {
-            window.location.reload()
-        })
+        setTimeout(callNewHeroList, 1000, url)
 }
 
 function callNewHeroList(url) {
@@ -143,7 +140,8 @@ function callNewHeroList(url) {
         let listHeroesDom = document.getElementById('list-hero')
         clearDom(listHeroesDom)
         buildHeroDom(listHeroesDom, data)
-
+        callHero2show(url)
+        console.log(data)
     })
 }
 
@@ -183,19 +181,10 @@ function showHero(dom, data) {
     dom.insertAdjacentHTML('beforeend', htmlStr)
 }
 
-function showUpdateCard(dom, data) {
-    clearDom(dom)
-    let htmlStr = `
-        <input type="text" id="UpdateName" HeroName ="hero[name]" value=' '></div>
-    `
-    dom.insertAdjacentHTML('beforeend', htmlStr)
-
-}
-
 function buildHeroDom(dom, data) {
     data.forEach(hero => {
         let htmlStr = `
-        <div class="herolist each-hero">
+        <div class="herolist each-hero" id="heroId${hero.id}">
             <div class="hero-name" id="${hero.id}">${hero.name}</div>
             <div>lv${hero.level}</div>
             <div>${hero.hp}</div>
